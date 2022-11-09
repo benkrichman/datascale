@@ -8,4 +8,4 @@ Scale line width or marker width (for line plots and scatter plots) to correspon
 
 ## plotdatadpi()
 
-Scale dpi of output image (when saving figure) to produce a certain number of pixels per data unit on either/both plot axes.
+Scale dpi of output image (when saving figure) to produce a certain number of pixels per data unit on either/both plot axis/axes.
