@@ -11,3 +11,6 @@ Scale line width or marker width for line plots and scatter plots to correspond 
 ## plotdatadpi()
 
 Scale dpi of output image to produce a certain number of pixels per data unit on either/both plot axis/axes. Useful for plots that need a certain amount of detail per axis unit (e.g. geographic projections).
+
+![Alt text](/images/datascale_plotdatadpi_test.png?raw=true)
+
