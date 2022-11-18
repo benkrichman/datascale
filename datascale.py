@@ -52,7 +52,7 @@ def plotdatasize(axobj=None,mult=1,axis='y',plottype='line'):
     else:
         sys.exit('ERROR - \''+plottype+'\' is invalid input, select \'line\' or \'scatter\'')
 
-def plotdatadpi(axobj=None,mult=1,axis='y',rangelim='auto'):
+def plotdatadpi(axobj=None,mult=1,axis='y',rangelim='warn'):
     """
     Returns a value for output dpi that is scaled to plotted data units
         Note that this function must be used after any figure/axis alterations (axes limits, aspect ratio, etc.)
@@ -67,9 +67,9 @@ def plotdatadpi(axobj=None,mult=1,axis='y',rangelim='auto'):
             e.g. to get a linewidth 1/10 the scale of the plotted units, mult=0.1
         axis ('x','y','xy') - axis to use for data scaling, default='y'
             Note that if x and y axes do not have an equal aspect ratio (e.g. axobj.set_aspect('equal')), 'xy' will attempt to average the scaling retrieved by 'x' and 'y', and will produce a warning if unequal
-        rangelim ('auto','warn') - select behaviour for when output dpi is below 150 or above 1000, default='auto'
-            'auto' will clip output to be 150 if lower or 1000 if highter
+        rangelim ('warn','auto') - select behaviour for when output dpi is below 100 or above 1000, default='warn'
             'warn' will output the calculated value, but will also produce a warning
+            'auto' will clip output to be 100 if lower or 1000 if highter
 
     Outputs:
         plotdatadpi - dpi value to be used as a direct input when saving figures
@@ -85,25 +85,25 @@ def plotdatadpi(axobj=None,mult=1,axis='y',rangelim='auto'):
     plotdatawidth=pointwidth/widthrange
     plotdataheight=pointheight/heightrange
     if axis=='y':
-        plotdatadpi=plotdataheight
+        dpidiv=plotdataheight
     elif axis=='x':
-        plotdatadpi=plotdatawidth
+        dpidiv=plotdatawidth
     elif axis=='xy':
         if plotdataheight!=plotdatawidth:
             if not np.allclose(plotdataheight,plotdatawidth):
                 warnings.warn('WARNING - x and y axes not scaled equally, output will not be precise')
-        plotdatadpi=(plotdataheight+plotdatawidth)/2
+        dpidiv=(plotdataheight+plotdatawidth)/2
     else:
         sys.exit('ERROR - \''+axis+'\' is invalid input, select \'x\',\'y\', or \'xy\'')
-    plotdatadpi*=mult*36*72/plotdatadpi
+    plotdatadpi=mult*72/dpidiv
     if rangelim=='auto':
-        if plotdatadpi<150:
-            plotdatadpi=150
+        if plotdatadpi<100:
+            plotdatadpi=100
         if plotdatadpi>1000:
             plotdatadpi=1000
     elif rangelim=='warn':
-        if plotdatadpi<150:
-            warnings.warn('WARNING - output dpi is less than 150, figure will be very low resolution')
+        if plotdatadpi<100:
+            warnings.warn('WARNING - output dpi is less than 100, figure will be very low resolution')
         if plotdatadpi>1000:
             warnings.warn('WARNING - output dpi is more than 1000, figure will be very large')
     else:
