@@ -4,6 +4,7 @@ import matplotlib.pyplot as plt
 import matplotlib.ticker as tck
 import numpy as np
 
+
 def plotdatasize(axobj=None,mult=1,axis='y',plottype='line'):
     """  
     Returns a value for linewidth/markersize or size that is scaled to plotted data units 
