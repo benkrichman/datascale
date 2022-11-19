@@ -1,6 +1,7 @@
 import sys
 import warnings
 import matplotlib.pyplot as plt
+import matplotlib.ticker as tck
 import numpy as np
 
 def plotdatasize(axobj=None,mult=1,axis='y',plottype='line'):
@@ -109,3 +110,64 @@ def plotdatadpi(axobj=None,mult=1,axis='y',rangelim='warn'):
     else:
         sys.exit('ERROR - \''+rangelim+'\' is invalid input, select \'auto\' or \'warn\'')
     return plotdatadpi
+
+def test():
+    print('Running datascale test\nTest images will be output to current directory')
+    plt.ioff()
+    fig=plt.figure()
+    ax=fig.add_subplot(111)
+    ax.set_xlim([0,5])
+    ax.set_ylim([0,12])
+    lwy=plotdatasize()
+    lwy2=plotdatasize(mult=2)
+    lwx=plotdatasize(axis='x')
+    msy=plotdatasize(plottype='scatter')
+    msy2=plotdatasize(plottype='scatter',mult=2)
+    msx=plotdatasize(plottype='scatter',axis='x')
+    ax.plot([2,4.5],[11,11],linewidth=lwy,c='C0')
+    ax.plot([2,4.5],[9,9],linewidth=lwy2,c='C0')
+    ax.plot([2],[7],linewidth=0,marker='o',markersize=lwy,c='C1')
+    ax.plot([2],[5],linewidth=0,marker='o',markersize=lwy2,c='C1')
+    ax.plot([3],[6],linewidth=0,marker='o',markersize=lwx,c='C1')
+    ax.scatter([2],[3],s=msy,linewidth=0,c='C2',zorder=2)
+    ax.scatter([2],[1],s=msy2,linewidth=0,c='C2',zorder=2)
+    ax.scatter([3],[2],s=msx,linewidth=0,c='C2',zorder=2)
+    ax.xaxis.set_major_locator(tck.MultipleLocator(0.5))
+    ax.yaxis.set_major_locator(tck.MultipleLocator(1))
+    ax.grid(which='both')
+    fs='x-small'
+    boxprops=dict(facecolor='white',alpha=1)
+    ax.text(0.2,11,'linewidth of 1 y data unit',fontsize=fs,bbox=boxprops,va='center')
+    ax.text(0.2,9,'linewidth of 2 y data units',fontsize=fs,bbox=boxprops,va='center')
+    ax.text(0.2,7,'line marker with linewidth\nof 1 y data unit',fontsize=fs,bbox=boxprops,va='center')
+    ax.text(0.2,5,'line marker with linewidth\nof 2 y data units',fontsize=fs,bbox=boxprops,va='center')
+    ax.text(0.2,3,'scatter marker with size\nof 1 y data unit',fontsize=fs,bbox=boxprops,va='center')
+    ax.text(0.2,1,'scatter marker with size\nof 2 y data units',fontsize=fs,bbox=boxprops,va='center')
+    ax.text(3.6,6,'line marker with linewidth\nof 1 x data unit',fontsize=fs,bbox=boxprops,va='center')
+    ax.text(3.6,2,'scatter marker with size\nof 1 x data unit',fontsize=fs,bbox=boxprops,va='center')
+    ax.set_title('Linewidth and Markerwidth Set With Datascale')
+    fig.savefig('datascale_plotdatasize_test',bbox_inches='tight')
+    print('Test figure saved as \'datascale_plotdatasize_test\'')
+    plt.close()
+    fig=plt.figure()
+    ax=fig.add_subplot(111)
+    ax.set_xlim([0,100])
+    ax.set_ylim([0,100])
+    ax.set_aspect('equal')
+    lwp5=plotdatasize(axis='xy',mult=0.5)
+    lw=plotdatasize(axis='xy')
+    lw2=plotdatasize(axis='xy',mult=2)
+    lw4=plotdatasize(axis='xy',mult=4)
+    ax.plot([0,100],[0,100],linewidth=lwp5)
+    ax.plot([20,120],[0,100],linewidth=lw)
+    ax.plot([40,140],[0,100],linewidth=lw2)
+    ax.plot([60,160],[0,100],linewidth=lw4)
+    ax.xaxis.set_minor_locator(tck.MultipleLocator(1))
+    ax.yaxis.set_minor_locator(tck.MultipleLocator(1))
+    ax.grid(which='both',linewidth=0.1*lw)
+    ax.set_title('Output DPI Set With Datascale')
+    outdpi=plotdatadpi(mult=5)
+    ax.text(5,95,'Set to resolve 5 pixels per data unit\nCalculated '+str('%3.2f' % outdpi)+' dpi\n*zoom to see detail',bbox=dict(facecolor='white'),va='top')
+    fig.savefig('datascale_plotdatadpi_test',dpi=outdpi,bbox_inches='tight')
+    print('Test figure saved as \'datascale_plotdatadpi_test\'')
+    plt.close()
