@@ -13,7 +13,7 @@ st.setup(
     long_description_content_type="text/markdown",
     author='Benjamin Krichman',
     author_email='benkrichman@gmail.com',
-    packages=['datascale'],
+    packages=st.find_packages(),#['datascale'],
     install_requires=[
         'numpy',
         'matplotlib'
