@@ -27,7 +27,6 @@ help(datascale.plotdatasize)
 
 To reproduce this image view test() in datascale.py or use
 ```python
-import datascale
 datascale.test()
 ```
 
@@ -42,7 +41,6 @@ help(datascale.plotdatadpi)
 
 To reproduce this image view test() in datascale.py or use
 ```python
-import datascale
 datascale.test()
 ```
 
