@@ -1,4 +1,4 @@
-<h1><img align="center" src="./images/datascale_icon.png">datascale</h1>
+<img align="left" src="./images/datascale_icon.png">
 
 #datascale
 
