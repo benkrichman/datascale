@@ -1,1 +1,1 @@
-from . import datascale
+from datascale import plotdatasize, plotdatadpi, test
