@@ -1,4 +1,4 @@
-<h1><img align="center" src="./images/datascale_icon.png">datascale</h1>
+<h1 style="vertical-align:middle"><img align="center" src="./images/datascale_icon.png">datascale</h1>
 
 Functions for automatic scaling of matplotlib plot axes/resolution to data
 
