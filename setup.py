@@ -5,7 +5,7 @@ with open('README.md','r') as ldf:
 
 st.setup(
     name='datascale',
-    version='0.1.0',
+    version='1.0.0',
     license='MIT',
     url='https://github.com/benkrichman/datascale',
     description='Functions for automatic scaling of matplotlib plot axes/resolution to data',
@@ -13,7 +13,7 @@ st.setup(
     long_description_content_type="text/markdown",
     author='Benjamin Krichman',
     author_email='benkrichman@gmail.com',
-    packages=st.find_packages(),#['datascale'],
+    packages=st.find_packages(),
     install_requires=[
         'numpy',
         'matplotlib'
