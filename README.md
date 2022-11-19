@@ -1,7 +1,4 @@
-<h3><img align="center" src="./images/datascale_icon.png">datascale</h3>
-
-![icon](/images/datascale_icon.png?raw=true) 
-
+<h2><img src="./images/datascale_icon.png">datascale</h2>
 
 #datascale
 
