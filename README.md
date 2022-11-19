@@ -1,4 +1,4 @@
-![icon](/images/datascale_icon.png?raw=true) # datascale
+#datascale ![icon](/images/datascale_icon.png?raw=true =50x50) 
 
 Functions for automatic scaling of matplotlib plot axes/resolution to data
 
