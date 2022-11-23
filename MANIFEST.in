@@ -1,6 +1,6 @@
-LICENSE.txt
-README.md
-datascale/*
-images/*
-requirements.txt
-setup.py
+include LICENSE.txt
+include README.md
+include datascale/*
+include images/*
+include requirements.txt
+include setup.py
