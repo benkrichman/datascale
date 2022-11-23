@@ -1,4 +1,4 @@
-<h1><img align="left" src="./images/datascale_icon.png">datascale</h1>
+<h1><img align="left" src="https://github.com/benkrichman/datascale/raw/main/images/datascale_icon.png">datascale</h1>
 
 Functions for automatic scaling of matplotlib line width, marker width, and resolution to data
 
@@ -23,7 +23,7 @@ Scale line width or marker width for line plots and scatter plots to correspond 
 help(datascale.plotdatasize)
 ```
 
-![plotdatasize() example](/images/datascale_plotdatasize_test.png?raw=true)
+![plotdatasize() example](https://github.com/benkrichman/datascale/raw/main/images/datascale_plotdatasize_test.png?raw=true)
 
 To reproduce this image view test() in datascale.py or use
 ```python
@@ -37,7 +37,7 @@ Scale dpi of output image to produce a certain number of pixels per data unit on
 help(datascale.plotdatadpi)
 ```
 
-![plotdatadpi() example](/images/datascale_plotdatadpi_test.png?raw=true)
+![plotdatadpi() example](https://github.com/benkrichman/datascale/raw/main/images/datascale_plotdatadpi_test.png?raw=true)
 
 To reproduce this image view test() in datascale.py or use
 ```python
