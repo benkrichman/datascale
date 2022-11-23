@@ -37,7 +37,7 @@ Scale dpi of output image to produce a certain number of pixels per data unit on
 help(datascale.plotdatadpi)
 ```
 
-![plotdatadpi() example](https://github.com/benkrichman/datascale/raw/main/images/datascale_plotdatadpi_test.png?raw=true)
+![plotdatadpi() example](https://github.com/benkrichman/datascale/raw/main/images/datascale_plotdatadpi_test.png?raw=true =594x588)
 
 To reproduce this image view test() in datascale.py or use
 ```python
