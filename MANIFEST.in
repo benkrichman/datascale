@@ -1,0 +1,6 @@
+LICENSE.txt
+README.md
+datascale/*
+images/*
+requirements.txt
+setup.py
