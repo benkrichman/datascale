@@ -38,6 +38,7 @@ help(datascale.plotdatadpi)
 ```
 
 ![plotdatadpi() example](https://github.com/benkrichman/datascale/raw/main/images/datascale_plotdatadpi_test.png?raw=true)
+<img src=https://github.com/benkrichman/datascale/raw/main/images/test.png?raw=true width="50%" height="50%">
 
 To reproduce this image view test() in datascale.py or use
 ```python
