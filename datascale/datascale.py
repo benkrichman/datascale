@@ -66,7 +66,7 @@ def plotdatadpi(axobj=None,mult=1,axis='y',rangelim='warn'):
     Inputs (Optional):
         axobj - axes object to scale to, default=plt.gca() (current pyplot axes object)
         mult - A float multiplier for output, default=1
-            e.g. to get a linewidth 1/10 the scale of the plotted units, mult=0.1
+            e.g. to get 10 pixels per data unit, mult=10
         axis ('x','y','xy') - axis to use for data scaling, default='y'
             Note that if x and y axes do not have an equal aspect ratio (e.g. axobj.set_aspect('equal')), 'xy' will attempt to average the scaling retrieved by 'x' and 'y', and will produce a warning if unequal
         rangelim ('warn','auto') - select behaviour for when output dpi is below 100 or above 1000, default='warn'
