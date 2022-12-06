@@ -1,6 +1,6 @@
 include LICENSE.txt
 include README.md
-include datascale/*
-include images/*
+recursive-include datascale *.py
+recursive-include images *
 include requirements.txt
 include setup.py
