@@ -1,11 +1,59 @@
 import sys
 import warnings
+import math
 import matplotlib.pyplot as plt
 import matplotlib.ticker as tck
-import numpy as np
 
+def plotdatafac(axobj=None,axis='y',method='mean'):
+    """
+    Returns a scaling factor between points and data units for finding size inputs to various matplotlib elements
 
-def plotdatasize(axobj=None,mult=1,axis='y',plottype='line'):
+    Inputs (Required):
+        none
+
+    Inputs (Optional):
+        axobj - axes object to scale to, default=plt.gca() (current pyplot axes object)
+        axis ('x','y','xy') - axis to use for data scaling, default='y'
+        method ('mean','low','high') - method for combining/choosing values when axis='xy' is selected
+            'mean' - average scaling for x and y axes
+                Note that if x and y axes do not have an equal aspect ratio (e.g. axobj.set_aspect('equal')), 'mean' will produce a warning
+            'low' - select the axis with a lower number of points per data unit
+            'high' - select the axis with a higher number of points per data unit
+            Note that method is only considered when axis='xy' is selected
+
+    Outputs:
+        plotdatafac - a scaling factor between points and data units
+    """
+    if axobj is None:
+        axobj=plt.gca()
+    fig=axobj.get_figure()
+    pointwidth=72*fig.bbox_inches.width*axobj.get_position().width
+    pointheight=72*fig.bbox_inches.height*axobj.get_position().height
+    widthrange=axobj.get_xlim()[1]-axobj.get_xlim()[0]
+    heightrange=axobj.get_ylim()[1]-axobj.get_ylim()[0]
+    width_ppu=pointwidth/widthrange
+    height_ppu=pointheight/heightrange
+    if axis=='y':
+        plotdatafac=height_ppu
+    elif axis=='x':
+        plotdatafac=width_ppu
+    elif axis=='xy':
+        if height_ppu!=width_ppu:
+            if not math.isclose(height_ppu,width_ppu,abs_tol=1):
+                warnings.warn('WARNING - x and y axes not scaled equally, output will not be precise')
+        if method=='mean':
+            plotdatafac=(height_ppu+width_ppu)/2
+        elif method=='low':
+            plotdatafac=min(width_ppu,height_ppu)
+        elif method=='high':
+            plotdatafac=max(width_ppu,height_ppu)
+        else:
+            sys.exit('ERROR - \''+method+'\' is invalid input, select \'mean\',\'low\', or \'high\'')
+    else:
+        sys.exit('ERROR - \''+axis+'\' is invalid input, select \'x\',\'y\', or \'xy\'')
+    return plotdatafac
+
+def plotdatasize(axobj=None,mult=1,axis='y',method='mean',plottype='line'):
     """  
     Returns a value for linewidth/markersize or size that is scaled to plotted data units 
         Note that this function must be used after any figure/axis alterations (axes limits, aspect ratio, etc.)
@@ -20,6 +68,12 @@ def plotdatasize(axobj=None,mult=1,axis='y',plottype='line'):
             e.g. to get a linewidth 1/10 the scale of the plotted units, mult=0.1
         axis ('x','y','xy') - axis to use for data scaling, default='y'
             Note that if x and y axes do not have an equal aspect ratio (e.g. axobj.set_aspect('equal')), 'xy' will attempt to average the scaling retrieved by 'x' and 'y', and will produce a warning if unequal
+        method ('mean','low','high') - method for combining/choosing values when axis='xy' is selected
+            'mean' - average scaling for x and y axes
+                Note that if x and y axes do not have an equal aspect ratio (e.g. axobj.set_aspect('equal')), 'mean' will produce a warning
+            'low' - select the axis with a lower number of points per data unit
+            'high' - select the axis with a higher number of points per data unit
+            Note that method is only considered when axis='xy' is selected
         plottype ('line'/'scatter') - plot type for use with output, default='line'
             Note that for lines and line markers (pyplot.plot) linewidth and markersize scale linearly, while for s (pyplot.scatter), markers scale with the square of size
             Note that using output for s will be correct in a scatter only if linewidth=0 (marker edge)
@@ -29,24 +83,7 @@ def plotdatasize(axobj=None,mult=1,axis='y',plottype='line'):
     """
     if axobj is None:
         axobj=plt.gca()
-    fig=axobj.get_figure()
-    pointwidth=72*fig.bbox_inches.width*axobj.get_position().width
-    pointheight=72*fig.bbox_inches.height*axobj.get_position().height
-    widthrange=np.diff(axobj.get_xlim())[0]
-    heightrange=np.diff(axobj.get_ylim())[0]
-    plotdatawidth=pointwidth/widthrange
-    plotdataheight=pointheight/heightrange
-    if axis=='y':
-        plotdatasize=plotdataheight
-    elif axis=='x':
-        plotdatasize=plotdatawidth
-    elif axis=='xy':
-        if plotdataheight!=plotdatawidth:
-            if not np.allclose(plotdataheight,plotdatawidth):
-                warnings.warn('WARNING - x and y axes not scaled equally, output will not be precise')
-        plotdatasize=(plotdataheight+plotdatawidth)/2
-    else:
-        sys.exit('ERROR - \''+axis+'\' is invalid input, select \'x\',\'y\', or \'xy\'')
+    plotdatasize=plotdatafac(axobj,axis,method)
     if plottype=='line':
         return mult*plotdatasize
     elif plottype=='scatter':
@@ -54,11 +91,11 @@ def plotdatasize(axobj=None,mult=1,axis='y',plottype='line'):
     else:
         sys.exit('ERROR - \''+plottype+'\' is invalid input, select \'line\' or \'scatter\'')
 
-def plotdatadpi(axobj=None,mult=1,axis='y',rangelim='warn'):
+def plotdatadpi(axobj=None,mult=1,axis='y',method='mean',rangelim='warn'):
     """
     Returns a value for output dpi that is scaled to plotted data units
         Note that this function must be used after any figure/axis alterations (axes limits, aspect ratio, etc.)
-        Note that scaling is to data units and not axis size - if a y axis ranges from 0 to 3 and mult=10, the produced plot will have 10 pixels per unit, or 30 pixels along the y axis
+        Note that scaling is to data units and not axis size - if a y axis ranges from 0 to 3 and mult=10, the produced plot will have 10 points per unit, or 30 points along the y axis
 
     Inputs (Required):
         none
@@ -66,9 +103,15 @@ def plotdatadpi(axobj=None,mult=1,axis='y',rangelim='warn'):
     Inputs (Optional):
         axobj - axes object to scale to, default=plt.gca() (current pyplot axes object)
         mult - A float multiplier for output, default=1
-            e.g. to get 10 pixels per data unit, mult=10
+            e.g. to get 10 points per data unit, mult=10
         axis ('x','y','xy') - axis to use for data scaling, default='y'
             Note that if x and y axes do not have an equal aspect ratio (e.g. axobj.set_aspect('equal')), 'xy' will attempt to average the scaling retrieved by 'x' and 'y', and will produce a warning if unequal
+        method ('mean','low','high') - method for combining/choosing values when axis='xy' is selected
+            'mean' - average scaling for x and y axes
+                Note that if x and y axes do not have an equal aspect ratio (e.g. axobj.set_aspect('equal')), 'mean' will produce a warning
+            'low' - select the axis with a lower number of points per data unit
+            'high' - select the axis with a higher number of points per data unit
+            Note that method is only considered when axis='xy' is selected
         rangelim ('warn','auto') - select behaviour for when output dpi is below 100 or above 1000, default='warn'
             'warn' will output the calculated value, but will also produce a warning
             'auto' will clip output to be 100 if lower or 1000 if highter
@@ -79,24 +122,7 @@ def plotdatadpi(axobj=None,mult=1,axis='y',rangelim='warn'):
     """
     if axobj is None:
         axobj=plt.gca()
-    fig=axobj.get_figure()
-    pointwidth=72*fig.bbox_inches.width*axobj.get_position().width
-    pointheight=72*fig.bbox_inches.height*axobj.get_position().height
-    widthrange=np.diff(axobj.get_xlim())[0]
-    heightrange=np.diff(axobj.get_ylim())[0]
-    plotdatawidth=pointwidth/widthrange
-    plotdataheight=pointheight/heightrange
-    if axis=='y':
-        dpidiv=plotdataheight
-    elif axis=='x':
-        dpidiv=plotdatawidth
-    elif axis=='xy':
-        if plotdataheight!=plotdatawidth:
-            if not np.allclose(plotdataheight,plotdatawidth):
-                warnings.warn('WARNING - x and y axes not scaled equally, output will not be precise')
-        dpidiv=(plotdataheight+plotdatawidth)/2
-    else:
-        sys.exit('ERROR - \''+axis+'\' is invalid input, select \'x\',\'y\', or \'xy\'')
+    dpidiv=plotdatafac(axobj,axis,method)
     plotdatadpi=mult*72/dpidiv
     if rangelim=='auto':
         if plotdatadpi<100:
@@ -113,6 +139,15 @@ def plotdatadpi(axobj=None,mult=1,axis='y',rangelim='warn'):
     return plotdatadpi
 
 def test():
+    plt.rcParams.update({
+        "lines.color": "dimgray",
+        "patch.edgecolor": "dimgray",
+        "text.color": "dimgray",
+        "axes.edgecolor": "dimgray",
+        "axes.labelcolor": "dimgray",
+        "xtick.color": "dimgray",
+        "ytick.color": "dimgray",
+        "grid.color": "dimgray",})
     print('Running datascale test\nTest images will be output to current directory')
     plt.ioff()
     fig=plt.figure()
@@ -147,7 +182,7 @@ def test():
     ax.text(3.6,6,'line marker with linewidth\nof 1 x data unit',fontsize=fs,bbox=boxprops,va='center')
     ax.text(3.6,2,'scatter marker with size\nof 1 x data unit',fontsize=fs,bbox=boxprops,va='center')
     ax.set_title('Linewidth and Markerwidth Set With Datascale')
-    fig.savefig('datascale_plotdatasize_test',bbox_inches='tight')
+    fig.savefig('datascale_plotdatasize_test',bbox_inches='tight',transparent=True)
     print('Test figure saved as \'datascale_plotdatasize_test\'')
     plt.close()
     fig=plt.figure()
@@ -168,7 +203,7 @@ def test():
     ax.grid(which='both',linewidth=0.1*lw)
     ax.set_title('Output DPI Set With Datascale')
     outdpi=plotdatadpi(mult=5)
-    ax.text(5,95,'Set to resolve 5 pixels per data unit\nCalculated '+str('%3.2f' % outdpi)+' dpi\n*zoom to see detail',bbox=dict(facecolor='white'),va='top')
-    fig.savefig('datascale_plotdatadpi_test',dpi=outdpi,bbox_inches='tight')
+    ax.text(5,95,'Set to resolve 5 points per data unit\nCalculated '+str('%3.2f' % outdpi)+' dpi\n*zoom to see detail',bbox=dict(facecolor='white'),va='top')
+    fig.savefig('datascale_plotdatadpi_test',dpi=outdpi,bbox_inches='tight',transparent=True)
     print('Test figure saved as \'datascale_plotdatadpi_test\'')
     plt.close()
