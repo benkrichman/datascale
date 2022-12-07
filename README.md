@@ -25,8 +25,6 @@ help(datascale.plotdatasize)
 
 ![plotdatasize() example](https://github.com/benkrichman/datascale/raw/main/images/datascale_plotdatasize_test.png?raw=true)
 
-<img src=https://github.com/benkrichman/datascale/raw/main/images/datascale_plotdatasize_test.png>
-
 To reproduce this image view test() in datascale.py or use
 ```python
 datascale.test()
