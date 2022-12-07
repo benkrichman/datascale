@@ -32,7 +32,7 @@ datascale.test()
 
 ### plotdatadpi()
 
-Scale dpi of output image to produce a certain number of pixels per data unit on either/both plot axis/axes. Useful for plots that need a certain amount of detail per axis unit (e.g. geographic projections). For more detail see help output:
+Scale dpi of output image to produce a certain number of points per data unit on either/both plot axis/axes. Useful for plots that need a certain amount of detail per axis unit (e.g. geographic projections). For more detail see help output:
 ```python
 help(datascale.plotdatadpi)
 ```
