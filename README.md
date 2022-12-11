@@ -4,6 +4,7 @@ Functions for automatic scaling of matplotlib line width, marker width, and reso
 
 \
 [![Downloads](https://pepy.tech/badge/datascale)](https://pepy.tech/project/datascale)   
+[![PyPI version](https://badge.fury.io/py/datascale.svg)](https://badge.fury.io/py/datascale)
 
 ## Installation
 
