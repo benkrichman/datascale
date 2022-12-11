@@ -2,6 +2,9 @@
 
 Functions for automatic scaling of matplotlib line width, marker width, and resolution to data
 
+\
+[![Downloads](https://pepy.tech/badge/datascale)](https://pepy.tech/project/datascale)   
+
 ## Installation
 
 ```bash
