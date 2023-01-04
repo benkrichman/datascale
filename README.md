@@ -1,6 +1,6 @@
 <h1><img align="left" src="https://github.com/benkrichman/datascale/raw/main/images/datascale_icon.png">datascale</h1>
 
-Functions for automatic scaling of matplotlib line width, marker width, and resolution to data
+Functions for automatic scaling of matplotlib line width, marker width, fontsize, and resolution to data
 
 \
 [![Downloads](https://pepy.tech/badge/datascale)](https://pepy.tech/project/datascale)   
@@ -22,7 +22,7 @@ pip install git+https://github.com/benkrichman/datascale.git@main
 
 ### plotdatasize()
 
-Scale line width or marker width for line plots and scatter plots to correspond directly to the scale of data on either/both plot axes. For more detail see help output:
+Scale line width, marker width, or fontsize for plots to correspond directly to the scale of data on either/both plot axes. For more detail see help output:
 ```python
 help(datascale.plotdatasize)
 ```
