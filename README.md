@@ -1,4 +1,4 @@
-<h1><img align="left" src="https://github.com/benkrichman/datascale/raw/main/images/datascale_icon.png">datascale</h1>
+<h1><img align="left" src="https://github.com/benkrichman/datascale/raw/main/images/datascale_icon.png" width="130" height="130">datascale</h1>
 
 Functions for automatic scaling of matplotlib line width, marker width, fontsize, and resolution to data
 
