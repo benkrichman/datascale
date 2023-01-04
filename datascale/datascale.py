@@ -55,9 +55,9 @@ def plotdatafac(axobj=None,axis='y',method='mean'):
 
 def plotdatasize(axobj=None,mult=1,axis='y',method='mean',plottype='line'):
     """  
-    Returns a value for linewidth/markersize or size that is scaled to plotted data units 
+    Returns a value for linewidth/markersize, size, or fontsize that is scaled to plotted data units 
         Note that this function must be used after any figure/axis alterations (axes limits, aspect ratio, etc.)
-        Note that scaling is to data units and not axis size - if a y axis ranges from 0 to 3 and mult=1, the produced line will be 1 unit thick, or 1/3 the height of the y axis
+        Note that scaling is to data units and not axis size - if a y axis ranges from 0 to 3 and mult=1, the produced line/marker/font will be 1 unit thick, or 1/3 the height of the y axis
 
     Inputs (Required):
         none
@@ -74,22 +74,24 @@ def plotdatasize(axobj=None,mult=1,axis='y',method='mean',plottype='line'):
             'low' - select the axis with a lower number of points per data unit
             'high' - select the axis with a higher number of points per data unit
             Note that method is only considered when axis='xy' is selected
-        plottype ('line'/'scatter') - plot type for use with output, default='line'
+        plottype ('line'/'scatter'/'font') - plot type/element for use with output, default='line'
             Note that for lines and line markers (pyplot.plot) linewidth and markersize scale linearly, while for s (pyplot.scatter), markers scale with the square of size
-            Note that using output for s will be correct in a scatter only if linewidth=0 (marker edge)
+            Note that using output for s will be correct in a scatter only if linewidth=0 (marker edge) in the scatter command
 
     Outputs:
-        plotdatasize - linewidth/markersize/s to be used as a direct input to pyplot.plot, pyplot.scatter, etc.        
+        plotdatasize - linewidth/markersize/s/fontsize to be used as a direct input to pyplot.plot, pyplot.scatter, pyplot.ax.text, etc.        
     """
     if axobj is None:
         axobj=plt.gca()
     plotdatasize=plotdatafac(axobj,axis,method)
     if plottype=='line':
         return mult*plotdatasize
+    elif plottype=='font':
+        return mult*plotdatasize
     elif plottype=='scatter':
         return (mult*plotdatasize)**2
     else:
-        sys.exit('ERROR - \''+plottype+'\' is invalid input, select \'line\' or \'scatter\'')
+        sys.exit('ERROR - \''+plottype+'\' is invalid input, select \'line\', \'font\', or \'scatter\'')
 
 def plotdatadpi(axobj=None,mult=1,axis='y',method='mean',rangelim='warn'):
     """
@@ -156,6 +158,7 @@ def test():
     ax.set_ylim([0,12])
     lwy=plotdatasize()
     lwy2=plotdatasize(mult=2)
+    fsy2=plotdatasize(plottype='font',mult=2)
     lwx=plotdatasize(axis='x')
     msy=plotdatasize(plottype='scatter')
     msy2=plotdatasize(plottype='scatter',mult=2)
@@ -175,6 +178,8 @@ def test():
     boxprops=dict(facecolor='white',alpha=1)
     ax.text(0.2,11,'linewidth of 1 y data unit',fontsize=fs,bbox=boxprops,va='center')
     ax.text(0.2,9,'linewidth of 2 y data units',fontsize=fs,bbox=boxprops,va='center')
+    ax.text(2,9,'DdPp',fontsize=fsy2,va='center',color='black')
+    ax.text(3.75,9,'font with fontsize\nof 2 y data units',fontsize=fs,bbox=boxprops,va='center')
     ax.text(0.2,7,'line marker with linewidth\nof 1 y data unit',fontsize=fs,bbox=boxprops,va='center')
     ax.text(0.2,5,'line marker with linewidth\nof 2 y data units',fontsize=fs,bbox=boxprops,va='center')
     ax.text(0.2,3,'scatter marker with size\nof 1 y data unit',fontsize=fs,bbox=boxprops,va='center')
